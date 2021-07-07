@@ -18,7 +18,7 @@ class Data:
             date = []
             for i in data.split('-'):
                 date.append(int(i))
-            return date
+            return f'Ваша дата {date[0]}.{date[1]}.{date[2]}'
         except ValueError:
             print('Дата введена некорректно!')
 
@@ -35,19 +35,27 @@ class Data:
         """
         try:
             date = []
+            month_31_day = [1, 3, 5, 7, 8, 10, 12]
+            month_30_day = [4, 6, 9, 11]
             for i in data.split('-'):
                 date.append(int(i))
-            if date[0] > 31:
-                return 'В месяце меньше дней!'
+            if date[0] > 31 and date[1] in month_31_day:
+                return 'В этом месяце меньше дней!'
+            elif date[0] > 30 and date[1] in month_30_day:
+                return 'В этом месяце меньше дней!'
+            elif date[2] % 4 == 0 and date[1] == 2 and date[0] > 29:
+                return 'Високосный год! В феврале меньше чисел!'
+            elif date[1] == 2 and date[0] > 28:
+                return 'Год не високосный, в феврале меньше чисел было!'
             elif date[1] > 12:
                 return 'В году меньше месяцев!'
             else:
-                print('Ваша дата', ''.join(str(date)))
+                print(f'Ваша дата {date[0]:02d}.{date[1]:02d}.{date[2]}')
         except ValueError:
             print('Дата введена некорректно!')
 
 
-print(Data.Method(input('Введите дату: ')))
-print(Data.Validation(input('Введите дату: ')))
+print(Data.Method(input('Введите дату в формате чч-мм-гггг: ')))
+print(Data.Validation(input('Введите дату в формате чч-мм-гггг: ')))
 
 
